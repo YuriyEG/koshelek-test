@@ -38,7 +38,7 @@ const NumberInput = styled(Input)<{
   type: string
   value: number
   placeholder: string
-  onChange: (e) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }>`
   width: 180px;
   height: 32px;
@@ -56,13 +56,13 @@ const Converter: FC = () => {
   const usd = useAppSelector(selectUsd)
   const dispatch = useAppDispatch()
 
-  const handleEurChange = e => {
-    const value = e.target.value
+  const handleEurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.valueAsNumber
     dispatch(changeEuro(value))
   }
 
-  const handleUsdChange = e => {
-    const value = e.target.value
+  const handleUsdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.valueAsNumber
     dispatch(changeUsd(value))
   }
   return (
