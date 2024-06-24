@@ -1,9 +1,10 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
-import App from "./App"
+import App from "./app/App"
 import { store } from "./app/store"
-import "./index.css"
+import FontStyles from "./assets/font-styles/font-styles"
+import GlobalStyles from "./global"
 
 const container = document.getElementById("root")
 
@@ -12,9 +13,11 @@ if (container) {
 
   root.render(
     <React.StrictMode>
+      <FontStyles />
       <Provider store={store}>
         <App />
-      </Provider>
+      </Provider>{" "}
+      <GlobalStyles />
     </React.StrictMode>,
   )
 } else {
