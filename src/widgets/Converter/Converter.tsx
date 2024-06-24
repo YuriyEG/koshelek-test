@@ -1,8 +1,12 @@
-import { useState, type FC } from "react"
+import { type FC } from "react"
 
 import styled from "styled-components"
 
 import { Input } from "@mui/material"
+
+import { useAppSelector } from "../../app/hooks"
+import { useAppDispatch } from "../../app/hooks"
+import { changeEuro, changeUsd, selectUsd, selectEuro } from "./ConverterSlice"
 
 const Div = styled.div`
   min-width: 280px;
@@ -32,9 +36,9 @@ const InputWrapper = styled.div`
 `
 const NumberInput = styled(Input)<{
   type: string
-  value: string
+  value: number
   placeholder: string
-  onChange: (e: Event) => void
+  onChange: (e) => void
 }>`
   width: 180px;
   height: 32px;
@@ -48,23 +52,18 @@ const Label = styled.label``
 const Currency = styled.div``
 
 const Converter: FC = () => {
-  const [eur, setEur] = useState("")
-  const [usd, setUsd] = useState("")
+  const euro = useAppSelector(selectEuro)
+  const usd = useAppSelector(selectUsd)
+  const dispatch = useAppDispatch()
 
-  const handleEurChange = (e: Event) => {
+  const handleEurChange = e => {
     const value = e.target.value
-    if (!isNaN(value)) {
-      setEur(value)
-      setUsd((parseFloat(value) * 1.07).toFixed(2))
-    }
+    dispatch(changeEuro(value))
   }
 
-  const handleUsdChange = (e: Event) => {
+  const handleUsdChange = e => {
     const value = e.target.value
-    if (!isNaN(value)) {
-      setUsd(value)
-      setEur((parseFloat(value) / 1.07).toFixed(2))
-    }
+    dispatch(changeUsd(value))
   }
   return (
     <Div>
@@ -76,7 +75,7 @@ const Converter: FC = () => {
             <Currency>EUR</Currency>
             <NumberInput
               type="number"
-              value={eur}
+              value={euro}
               onChange={handleEurChange}
               placeholder="Сумма в Евро"
             />

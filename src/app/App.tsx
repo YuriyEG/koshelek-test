@@ -3,7 +3,7 @@ import type { IAppProps } from "../types/App.type"
 
 import styled from "styled-components"
 
-import Converter from "../widgets/Converter"
+import Converter from "../widgets/Converter/Converter"
 
 const Div = styled.div`
   font-weight: bolder;
