@@ -39,6 +39,7 @@ const NumberInput = styled(Input)<{
   value: number
   placeholder: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  min: number
 }>`
   width: 180px;
   height: 32px;
@@ -58,12 +59,12 @@ const Converter: FC = () => {
 
   const handleEurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.valueAsNumber
-    dispatch(changeEuro(value))
+    if (value >= 0) dispatch(changeEuro(value))
   }
 
   const handleUsdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.valueAsNumber
-    dispatch(changeUsd(value))
+    if (value >= 0) dispatch(changeUsd(value))
   }
   return (
     <Div>
@@ -78,6 +79,7 @@ const Converter: FC = () => {
               value={euro}
               onChange={handleEurChange}
               placeholder="Сумма в Евро"
+              min={0}
             />
           </Label>
         </InputWrapper>
@@ -90,6 +92,7 @@ const Converter: FC = () => {
               value={usd}
               onChange={handleUsdChange}
               placeholder="Сумма в долларах"
+              min={0}
             />
           </Label>
         </InputWrapper>
