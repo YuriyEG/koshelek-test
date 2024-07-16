@@ -4,7 +4,7 @@ import { Provider } from "react-redux"
 import App from "./app/App"
 import { store } from "./app/store"
 import FontStyles from "./assets/font-styles/font-styles"
-import GlobalStyles from "./global"
+import GlobalStyles from "./styles/global"
 
 const container = document.getElementById("root")
 
