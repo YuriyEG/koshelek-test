@@ -1,11 +1,7 @@
 import { type FC } from "react"
-
 import styled from "styled-components"
-
-import { Input } from "@mui/material"
-
-import { useAppSelector } from "../../app/hooks"
-import { useAppDispatch } from "../../app/hooks"
+import { TextField } from "@mui/material"
+import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import { changeEuro, changeUsd, selectUsd, selectEuro } from "./ConverterSlice"
 
 const Div = styled.div`
@@ -34,21 +30,22 @@ const InputWrapper = styled.div`
     margin-right: 12px;
   }
 `
-const NumberInput = styled(Input)<{
-  type: string
-  value: number
-  placeholder: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  min: number
-}>`
-  width: 180px;
+
+const StyledTextField = styled(TextField)`
   height: 32px;
-  border-radius: 4px;
-  text-indent: 12px;
   background-color: white;
-  overflow: hidden;
-  padding-left: 10px;
+  border-radius: 4px;
+  .MuiInputBase-root {
+    height: 32px;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border-color: transparent;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #3f51b5;
+  }
 `
+
 const Label = styled.label``
 const Currency = styled.div``
 
@@ -58,41 +55,52 @@ const Converter: FC = () => {
   const dispatch = useAppDispatch()
 
   const handleEurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.valueAsNumber
-    if (value >= 0) dispatch(changeEuro(value))
+    const value = e.target.value
+    if (/^\d*\.?\d*$/.test(value)) {
+      dispatch(changeEuro(value === "" ? 0 : parseFloat(value)))
+    }
   }
 
   const handleUsdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.valueAsNumber
-    if (value >= 0) dispatch(changeUsd(value))
+    const value = e.target.value
+    if (/^\d*\.?\d*$/.test(value)) {
+      dispatch(changeUsd(value === "" ? 0 : parseFloat(value)))
+    }
   }
+
   return (
     <Div>
       <Title>Конвертер Валют</Title>
       <Box>
         <InputWrapper>
-          {" "}
           <Label>
             <Currency>EUR</Currency>
-            <NumberInput
-              type="number"
+            <StyledTextField
+              type="text"
               value={euro}
               onChange={handleEurChange}
               placeholder="Сумма в Евро"
-              min={0}
+              inputProps={{ min: 0 }}
+              variant="outlined"
+              sx={{
+                background: "white",
+                borderRadius: "4px",
+              }}
+              fullWidth
             />
           </Label>
         </InputWrapper>
         <InputWrapper>
-          {" "}
           <Label>
             <Currency>USD</Currency>
-            <NumberInput
-              type="number"
+            <StyledTextField
+              type="text"
               value={usd}
               onChange={handleUsdChange}
               placeholder="Сумма в долларах"
-              min={0}
+              inputProps={{ min: 0 }}
+              variant="outlined"
+              fullWidth
             />
           </Label>
         </InputWrapper>
